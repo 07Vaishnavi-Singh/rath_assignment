@@ -4,25 +4,7 @@
 
 TypeScript implementation for decoding, filtering, and re-encoding Pyth Network price feed data for gas-optimized blockchain transactions.
 
-## Quick Start
 
-```bash
-npm install && npm run build && npm start
-```
-
-## Core Implementation
-
-```typescript
-import { implementAssignmentApproach } from "./scripts/encode-updates.js";
-
-const result = await implementAssignmentApproach();
-console.log(
-  `Size reduction: ${(
-    ((result.originalSize - result.filteredSize) / result.originalSize) *
-    100
-  ).toFixed(1)}%`
-);
-```
 
 ## Architecture
 
