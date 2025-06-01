@@ -9,29 +9,29 @@ TypeScript implementation for fetching Pyth Network price feeds and creating fil
 1. **Data Fetching**: Connect to Pyth Hermes API to retrieve 20 crypto asset price feeds using keyword - eth and bitcoin.
 2. **Selective Filtering**: Extract first 5 assets from the dataset (as instructed).
 3. **VAA Generation**: Create new VAA containing only selected price feeds using `getLatestPriceUpdates()`
-4. **Payload Formatting**: Format output as valid hex bytes for Solidity `updatePriceFeeds()` function and  Proper `0x` prefix for Solidity compatibility 
+4. **Payload Formatting**: Format output as valid hex bytes for Solidity `updatePriceFeeds()` function and Proper `0x` prefix for Solidity compatibility
 
 ## Technical Implementation
-
 
 ### Key Functions
 
 ```typescript
-// make Hermes connection using API exposed 
-  const connection = new HermesClient("https://hermes.pyth.network", {});
+// Connect to Pyth Hermes API
+const connection = new HermesClient("https://hermes.pyth.network", {});
 
-// Fetch all available price feeds 
-  const priceFeeds = await connection.getPriceFeeds({
-    query: "btc",
-    assetType: "crypto",
-  });
+// Fetch 20 price feed IDs
+const { priceIds } = await fetchPriceUpdates();
 
+// Select first 5 assets
+const selectedIds = priceIds.slice(0, 5);
 
-// Create filtered VAA for selected assets
+// Create filtered VAA for selected 5 assets
 const filteredUpdates = await connection.getLatestPriceUpdates(selectedIds);
 
-// Format for Solidity bytes[] parameter according to -  https://github.dev/pyth-network/pyth-crosschain/tree/main/target_chains/ethereum/contracts 
-const formattedPayload = `0x${rawPayload}`;
+// Format payload for updatePriceFeeds() function
+const formattedPayload = rawPayload.startsWith("0x")
+  ? rawPayload
+  : `0x${rawPayload}`;
 ```
 
 ## TechStack and tools used
@@ -44,7 +44,7 @@ const formattedPayload = `0x${rawPayload}`;
 ## Challenges Encountered
 
 1. **Hex Format Compatibility**: Ensuring proper `0x` prefix for Solidity `bytes[]` parameterr eady for submission to Pyth consumer contracts via `updatePriceFeeds(updateData)`.
-3. **VAA Structure**: Understanding binary data access patterns (`binary.data[0]`) 
+2. **VAA Structure**: Understanding binary data access patterns (`binary.data[0]`)
 
 ## Output Format
 
@@ -52,6 +52,5 @@ Generates Solidity-compatible payload:
 
 ```solidity
 bytes[] memory updateData = new bytes[](1);
-updateData[0] = "0x504e4155..."; 
+updateData[0] = "0x504e4155...";
 ```
-
