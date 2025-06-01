@@ -17,17 +17,24 @@ TypeScript implementation for fetching Pyth Network price feeds and creating fil
 ### Key Functions
 
 ```typescript
-// Fetch all available price feeds
-const { priceIds, priceUpdates, connection } = await fetchPriceUpdates();
+// make Hermes connection using API pexposed 
+  const connection = new HermesClient("https://hermes.pyth.network", {});
+
+// Fetch all available price feeds 
+  const priceFeeds = await connection.getPriceFeeds({
+    query: "btc",
+    assetType: "crypto",
+  });
+
 
 // Create filtered VAA for selected assets
 const filteredUpdates = await connection.getLatestPriceUpdates(selectedIds);
 
-// Format for Solidity bytes[] parameter
+// Format for Solidity bytes[] parameter according to -  https://github.dev/pyth-network/pyth-crosschain/tree/main/target_chains/ethereum/contracts 
 const formattedPayload = `0x${rawPayload}`;
 ```
 
-## Tools Used
+## TechStack and tools used
 
 - **TypeScript**: Type-safe development
 - **@pythnetwork/hermes-client**: Official Pyth Network client
