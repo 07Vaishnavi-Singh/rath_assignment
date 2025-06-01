@@ -17,7 +17,7 @@ TypeScript implementation for fetching Pyth Network price feeds and creating fil
 ### Key Functions
 
 ```typescript
-// make Hermes connection using API pexposed 
+// make Hermes connection using API exposed 
   const connection = new HermesClient("https://hermes.pyth.network", {});
 
 // Fetch all available price feeds 
