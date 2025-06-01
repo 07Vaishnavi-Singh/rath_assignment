@@ -35,16 +35,40 @@ export async function selectiveEncodeUpdates() {
     });
   }
   
-  // This is a complete VAA with only our 5 selected assets
-  const reEncodedPayload = filteredUpdates.binary.data[0];
-    
-  console.log(`\n Payload Preview of size ${reEncodedPayload.length} chars:`);
-  console.log(`${reEncodedPayload.substring(0, 100)}...`);
+  // Get the raw VAA payload
+  let rawPayload = filteredUpdates.binary.data[0];
   
-  // Validate the payload
-  const isValidFormat = reEncodedPayload.startsWith('0x') || /^[0-9a-fA-F]+$/.test(reEncodedPayload);
-  console.log(`Valid format for updatePriceFeeds(): ${isValidFormat ? 'YES' : 'NO'}`);
+  // Ensure proper 0x prefix for Solidity bytes format
+  const formattedPayload = rawPayload.startsWith('0x') ? rawPayload : `0x${rawPayload}`;
   
+  console.log(`\n VAA Payload for updatePriceFeeds():`);
+  console.log(`Format: bytes (with 0x prefix)`);
+  console.log(`Length: ${formattedPayload.length} characters`);
+  console.log(`Payload: ${formattedPayload.substring(0, 100)}...`);
+  
+  // Validate the payload format
+  const isValidHex = /^0x[0-9a-fA-F]+$/.test(formattedPayload);
+  console.log(`Valid hex format: ${isValidHex ? 'YES' : 'NO'}`);
+  
+  // Show how to use in Solidity
+  console.log(`\n Solidity Usage:`);
+  console.log(`bytes[] memory updateData = new bytes[](1);`);
+  console.log(`updateData[0] = hex"${formattedPayload.slice(2)}"; // Remove 0x for hex literal`);
+  console.log(`// OR`);
+  console.log(`updateData[0] = "${formattedPayload}"; // Direct hex string`);
+  
+  // Calculate estimated fee (this is approximate)
+  const numUpdates = filteredUpdates.parsed?.length || 0;
+  console.log(`\n Fee Information:`);
+  console.log(`Number of price updates: ${numUpdates}`);
+  console.log(`Estimated fee required: Call getTotalFee(${numUpdates}) on contract`);
+  
+  return {
+    payload: formattedPayload,
+    numUpdates: numUpdates,
+    selectedAssets: selectedIds,
+    isValid: isValidHex
+  };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
