@@ -1,56 +1,63 @@
-# Pyth Network Price Feed Filtering
+# Pyth Network Price Feed Processing
 
 ## Overview
 
-TypeScript implementation for fetching Pyth Network price feeds and creating filtered VAAs (Verifiable Action Approvals) containing only 5 selected assets for efficient on-chain price updates.
+TypeScript implementation for decoding, filtering, and re-encoding Pyth Network price feed data for gas-optimized blockchain transactions.
 
-## Approach
+## Quick Start
 
-1. **Data Fetching**: Connect to Pyth Hermes API to retrieve 20 crypto asset price feeds using keyword - eth and bitcoin.
-2. **Selective Filtering**: Extract first 5 assets from the dataset (as instructed).
-3. **VAA Generation**: Create new VAA containing only selected price feeds using `getLatestPriceUpdates()`
-4. **Payload Formatting**: Format output as valid hex bytes for Solidity `updatePriceFeeds()` function and Proper `0x` prefix for Solidity compatibility
+```bash
+npm install && npm run build && npm start
+```
 
-## Technical Implementation
+## Core Implementation
+
+```typescript
+import { implementAssignmentApproach } from "./scripts/encode-updates.js";
+
+const result = await implementAssignmentApproach();
+console.log(
+  `Size reduction: ${(
+    ((result.originalSize - result.filteredSize) / result.originalSize) *
+    100
+  ).toFixed(1)}%`
+);
+```
+
+## Architecture
+
+### Data Flow
+
+1. **Fetch** → Hermes API retrieves AccumulatorUpdateData
+2. **Decode** → Parse binary format (PNAU header + VAA + price feeds)
+3. **Filter** → Select subset of price feeds
+4. **Re-encode** → Reconstruct optimized payload
+5. **Validate** → Ensure Pyth contract compatibility
+
+### Price Feed Message Format (85 bytes)
+
+```
+[1B] Message Type (0x00)
+[32B] Feed ID
+[8B] Price (signed int64 BE)
+[8B] Confidence (uint64 BE)
+[4B] Exponent (int32 BE)
+[8B] Publish Time (uint64 BE)
+[8B] Previous Publish Time (uint64 BE)
+[8B] EMA Price (signed int64 BE)
+[8B] EMA Confidence (uint64 BE)
+```
 
 ### Key Functions
 
-```typescript
-// Connect to Pyth Hermes API
-const connection = new HermesClient("https://hermes.pyth.network", {});
+- `decodeAccumulatorUpdateData()` - Parses binary Pyth format
+- `parsePriceFeedMessage()` - Extracts individual price data
+- `encodeAccumulatorUpdateData()` - Reconstructs filtered payload
+- `encodePriceFeedMessage()` - Converts struct to binary
 
-// Fetch 20 price feed IDs
-const { priceIds } = await fetchPriceUpdates();
 
-// Select first 5 assets
-const selectedIds = priceIds.slice(0, 5);
+## Tech Stack
 
-// Create filtered VAA for selected 5 assets
-const filteredUpdates = await connection.getLatestPriceUpdates(selectedIds);
-
-// Format payload for updatePriceFeeds() function
-const formattedPayload = rawPayload.startsWith("0x")
-  ? rawPayload
-  : `0x${rawPayload}`;
-```
-
-## TechStack and tools used
-
-- **TypeScript**: Type-safe development
-- **@pythnetwork/hermes-client**: Official Pyth Network client
-- **Node.js**: Runtime environment
-- **npm**: Package management and build scripts
-
-## Challenges Encountered
-
-1. **Hex Format Compatibility**: Ensuring readiness for submission to Pyth consumer contracts via `updatePriceFeeds(updateData)`.
-2. **VAA Structure**: Understanding binary data access patterns (`binary.data[0]`)
-
-## Output Format
-
-Generates Solidity-compatible payload:
-
-```solidity
-bytes[] memory updateData = new bytes[](1);
-updateData[0] = "0x504e4155...";
-```
+- TypeScript + Node.js
+- @pythnetwork/hermes-client
+- Binary data manipulation (Buffer)

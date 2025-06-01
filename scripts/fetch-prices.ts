@@ -5,12 +5,10 @@ export async function fetchPriceUpdates() {
  
   const priceFeeds = await connection.getPriceFeeds({
     query: "btc",
-    assetType: "crypto",
   });
 
   const priceFeeds2 = await connection.getPriceFeeds({
     query: "eth",
-    assetType: "crypto",
   });
 
   const priceIds = [

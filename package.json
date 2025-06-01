@@ -6,15 +6,19 @@
   "scripts": {
     "build": "tsc",
     "fetch-prices": "npm run build && node dist/fetch-prices.js",
-    "encode-updates": "npm run build && node dist/encode-updates.js"
+    "start": "npm run build && node dist/encode-updates.js"
   },
   "author": "",
   "license": "ISC",
   "description": "Pyth Price Update Assignment - Fetch and selectively encode price updates",
   "dependencies": {
-    "@pythnetwork/hermes-client": "^2.0.0"
+    "@pythnetwork/hermes-client": "^1.0.0",
+    "@pythnetwork/price-service-client": "^1.9.0",
+    "@pythnetwork/pyth-evm-js": "^1.83.0",
+    "bn.js": "^5.2.2"
   },
   "devDependencies": {
+    "@types/bn.js": "^5.1.6",
     "@types/node": "^20.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2"
