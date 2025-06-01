@@ -2,7 +2,7 @@
 
 This project demonstrates fetching price updates from Pyth Hermes API and selectively re-encoding them for on-chain submission.
 
-## 🎯 Assignment Overview
+## Assignment Overview
 
 ### Task 1: Fetch Price Update Data ✅
 
@@ -21,7 +21,7 @@ This project demonstrates fetching price updates from Pyth Hermes API and select
 - Organized code in `scripts/` directory
 - Comprehensive documentation and usage instructions
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 rath_assignment/
@@ -34,7 +34,7 @@ rath_assignment/
 └── README.md              # This file
 ```
 
-## 🛠️ Tools and Technologies Used
+## Tools and Technologies Used
 
 ### Core Dependencies
 
@@ -47,7 +47,7 @@ rath_assignment/
 - **Hermes Client**: Connects to Pyth's Hermes service for real-time price data
 - **Native Node.js**: For hex encoding/decoding and data manipulation
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -97,7 +97,7 @@ npm run encode-updates
 node dist/encode-updates.js
 ```
 
-## 📋 How It Works
+## How It Works
 
 ### 1. Price Data Fetching (`fetch-prices.ts`)
 
@@ -148,10 +148,9 @@ The re-encoded payload can be submitted to a Pyth consumer contract:
 contract.updatePriceFeeds(reEncodedPayload);
 ```
 
-## 🔧 Technical Approach
+## Technical Approach
 
-
-## 🧪 Sample Output
+## Sample Output
 
 ### Price Feeds Fetched
 
@@ -191,7 +190,7 @@ Payload Preview of size 2847 chars:
 Valid format for updatePriceFeeds(): YES
 ```
 
-## 🚧 Key Implementation Details
+## Key Implementation Details
 
 ### Modular Design
 
@@ -209,16 +208,14 @@ Instead of manually combining binary data, the implementation:
 - Creates a proper Pyth VAA (Verified Actionable Artifact) with only the chosen assets
 - Ensures the resulting payload is a valid accumulator update
 
-## 🔍 Key Features
+## Key Features
 
-- ✅ **Real-time Data**: Fetches live price data from Pyth Hermes
-- ✅ **Type Safety**: Full TypeScript implementation with proper typing
-- ✅ **Modular Design**: Separated concerns with reusable functions
-- ✅ **Filtered VAAs**: Creates proper Pyth accumulator updates for selected assets
-- ✅ **Error Handling**: Comprehensive validation and error checking
-- ✅ **Documentation**: Detailed comments and usage examples
-- ✅ **Extensible**: Easy to modify for different assets or selection strategies
-
-
+- **Real-time Data**: Fetches live price data from Pyth Hermes
+- **Type Safety**: Full TypeScript implementation with proper typing
+- **Modular Design**: Separated concerns with reusable functions
+- **Filtered VAAs**: Creates proper Pyth accumulator updates for selected assets
+- **Error Handling**: Comprehensive validation and error checking
+- **Documentation**: Detailed comments and usage examples
+- **Extensible**: Easy to modify for different assets or selection strategies
 
 **Note**: This implementation provides a working solution for the assignment requirements. The filtered VAA creation ensures that the payload contains only the selected assets and is valid for on-chain submission to Pyth consumer contracts.
