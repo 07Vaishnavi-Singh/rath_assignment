@@ -43,7 +43,7 @@ const formattedPayload = rawPayload.startsWith("0x")
 
 ## Challenges Encountered
 
-1. **Hex Format Compatibility**: Ensuring proper `0x` prefix for Solidity `bytes[]` parameterr eady for submission to Pyth consumer contracts via `updatePriceFeeds(updateData)`.
+1. **Hex Format Compatibility**: Ensuring readiness for submission to Pyth consumer contracts via `updatePriceFeeds(updateData)`.
 2. **VAA Structure**: Understanding binary data access patterns (`binary.data[0]`)
 
 ## Output Format
