@@ -61,7 +61,6 @@ function logAssetDetails(filteredUpdates: any) {
     
     filteredUpdates.parsed.forEach((update: any, index: number) => {
       const formattedPrice = (parseInt(update.price.price) / Math.pow(10, Math.abs(update.price.expo))).toFixed(2);
-      const publishTime = new Date(update.price.publish_time * 1000).toISOString();
       
       console.log(`${index + 1}. Asset: ${update.id.substring(0, 8)}...${update.id.substring(update.id.length - 8)}`);
       console.log(`   Price: $${formattedPrice}`);
