@@ -1,16 +1,17 @@
 {
-  "name": "rath_assignment",
+  "name": "pyth-price-feed-optimizer",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "TypeScript implementation for decoding, filtering, and re-encoding Pyth Network price feed data for gas-optimized blockchain transactions",
+  "main": "dist/encode-updates.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "fetch-prices": "npm run build && node dist/fetch-prices.js",
-    "start": "npm run build && node dist/encode-updates.js"
+    "start": "npm run build && node dist/encode-updates.js",
+    "fetch-prices": "npm run build && node dist/fetch-prices.js"
   },
+  "keywords": ["pyth", "blockchain", "defi", "price-feeds", "ethereum", "typescript"],
   "author": "",
   "license": "ISC",
-  "description": "Pyth Price Update Assignment - Fetch and selectively encode price updates",
   "dependencies": {
     "@pythnetwork/hermes-client": "^1.0.0",
     "@pythnetwork/price-service-client": "^1.9.0",
@@ -22,5 +23,8 @@
     "@types/node": "^20.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
