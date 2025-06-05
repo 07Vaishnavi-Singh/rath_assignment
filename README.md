@@ -1,4 +1,4 @@
-# Pyth Network Price Feed Optimizer
+# Pyth Network Price Feed
 
 A TypeScript implementation for decoding, filtering, and re-encoding Pyth Network price feed data to create gas-optimized blockchain transactions.
 
